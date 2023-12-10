@@ -7,22 +7,21 @@ using System.Threading.Tasks;
 
 namespace Day1
 {
-    //53885 not good
     internal class Program
     {
-        static string input = "C:\\Users\\dev\\source\\repos\\AdventOfCode2023\\Day1\\input.txt";
+        static string input = "C:\\Users\\dev\\source\\repos\\AdventOfCode2023\\Day1\\Input.txt";
 
         static Dictionary<string, string> numberWords = new Dictionary<string, string>
         {
-            {"one", "1"},
-            {"two", "2"},
-            {"three", "3"},
-            {"four", "4"},
-            {"five", "5"},
-            {"six", "6"},
-            {"seven", "7"},
-            {"eight", "8"},
-            {"nine", "9"}
+            {"one", "o1e"},
+            {"two", "t2o"},
+            {"three", "t3e"},
+            {"four", "f4r"},
+            {"five", "f5e"},
+            {"six", "s6x"},
+            {"seven", "s7n"},
+            {"eight", "e8t"},
+            {"nine", "n9e"}
         };
 
     public static void Main()
@@ -54,36 +53,9 @@ namespace Day1
 
         private static string TranscribeWordsToNumbers(string input)
         {
-            string transcribedString = input;
-            while(GetFirstOccurenceAndReplace(transcribedString, out transcribedString))
-            {
-
-            }
-
-
+            string transcribedString =  numberWords.Aggregate(input, (current, kv) => current.Replace(kv.Key, kv.Value));
             Console.WriteLine(transcribedString);
             return transcribedString;
-        }
-
-        private static bool GetFirstOccurenceAndReplace(in string input, out string output)
-        {
-            for (int i = 0; i < input.Length - 1; i++)
-            {
-                foreach(var pair in numberWords)
-                {
-                    if (i + pair.Key.Length <= input.Length && input.Substring(i, pair.Key.Length) == pair.Key)
-                    {
-                        string substring1 = input.Substring(0, i);
-                        string substring2 = input.Substring(i + pair.Key.Length);
-
-                        output = substring1 + pair.Value + substring2;
-                        return true;
-                    }
-                }
-            }
-
-            output = input;
-            return false;
         }
 
         private static int GetCalibratedResult(string input)
@@ -94,7 +66,6 @@ namespace Day1
             int.TryParse(numbers.First().ToString(), out firstNumber);
             int.TryParse(numbers.Last().ToString(), out lastNumber);
 
-            Console.WriteLine($"{firstNumber}{lastNumber}");
             return firstNumber * 10 + lastNumber;
         }
     }
