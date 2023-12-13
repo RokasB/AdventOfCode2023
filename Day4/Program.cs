@@ -16,7 +16,8 @@ namespace Day4
         static void Main(string[] args)
         {
             ReadInput();
-            Console.WriteLine(GetPoints());
+            //Console.WriteLine(GetPoints());
+            Console.WriteLine(GetTotalCardCount());
             Console.ReadLine();
         }
 
@@ -29,6 +30,42 @@ namespace Day4
                 Card game = new Card(line.Trim());
                 cards.Add(game);
             }
+        }
+
+        static int GetTotalCardCount()
+        {
+            for (int i = 0; i< cards.Count; i++)
+            {
+                //For each instance of card do lottery
+                for(int j = 1; j<= cards[i].Count; j++)
+                {
+                    //Get count
+                    int points = 0;
+                    foreach (int myNumber in cards[i].MyNumbers)
+                    {
+                        if (cards[i].WinningNumbers.Contains(myNumber))
+                        {
+                            points++;
+                        }
+                    }
+
+                    //Add winned cards
+                    if (points > cards.Count - i + 1)
+                        points = cards.Count - i + 1;
+
+                    for (int k = 1; k <= points; k++)
+                    {
+                        cards[i + k].Count++;
+                    }
+                }
+            }
+
+            int sum = 0;
+            foreach(var card in cards)
+            {
+                sum += card.Count;
+            }
+            return sum;
         }
 
         static int GetPoints()

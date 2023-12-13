@@ -13,8 +13,12 @@ namespace Day4
         public List<int> WinningNumbers = new List<int>();
         public List<int> MyNumbers = new List<int>();
 
+        public int Count;
+
         public Card(string gameInput)
         {
+            Count = 1;
+
             Id = int.Parse(gameInput.Split(':')[0].Substring(5));//Skip 'Card ' text symbols
             var inputSets = gameInput.Split(':')[1].Split('|');
 
