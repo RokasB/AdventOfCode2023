@@ -14,7 +14,7 @@ namespace Day6
         static List<Race> races = new List<Race>();
         static void Main(string[] args)
         {
-            ReadInput();
+            ReadInput2();
             Console.WriteLine(GetNumberOfWays());
             Console.ReadLine();
         }
@@ -30,9 +30,26 @@ namespace Day6
             }
         }
 
-        public static int GetNumberOfWays()
+        static void ReadInput2()
         {
-            int sum = 1;
+            var lines = File.ReadLines(input);
+            var times = lines.First().Split(':')[1].Split(' ').Where(x => x != "").ToList();
+            var distances = lines.Last().Split(':')[1].Split(' ').Where(x => x != "").ToList();
+
+            string distance = "", time = "";
+
+            for (int i = 0; i < times.Count; i++)
+            {
+                distance += distances[i];
+                time += times[i];
+            }
+
+            races.Add(new Race(long.Parse(time), long.Parse(distance)));
+        }
+
+        public static long GetNumberOfWays()
+        {
+            long sum = 1;
 
             foreach(var race in races)
             {
@@ -43,13 +60,13 @@ namespace Day6
             return sum;
         }
 
-        public static int GetNumberOfWaysForRace(Race race)
+        public static long GetNumberOfWaysForRace(Race race)
         {
-            int count = 0;
+            long count = 0;
 
-            for(int i = 1;  i < race.Time; i++)
+            for(long i = 1;  i < race.Time; i++)
             {
-                int distance = (race.Time - i) * i;
+                long distance = (race.Time - i) * i;
 
                 if(distance > race.Distance)
                     count++;

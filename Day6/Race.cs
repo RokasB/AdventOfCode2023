@@ -8,11 +8,11 @@ namespace Day6
 {
     internal class Race
     {
-        public int Time;
+        public long Time;
 
-        public int Distance;
+        public long Distance;
 
-        public Race(int time, int distance)
+        public Race(long time, long distance)
         {
             this.Time = time;
             this.Distance = distance;
