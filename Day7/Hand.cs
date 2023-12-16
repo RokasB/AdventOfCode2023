@@ -18,7 +18,7 @@ namespace Day7
         {
             this.cards = cards;
             this.bid = bid;
-            this.handType = getHandType(cards);
+            this.handType = getHandType(switchJokers(cards));
         }
 
         public HandType getHandType(string cards)
@@ -44,6 +44,18 @@ namespace Day7
             if (characterCounts.Count() == 4) return HandType.OnePair;
 
             return HandType.HighCard;
+        }
+
+        public string switchJokers(string cards)
+        {
+            var mostCommonCard = cards
+                .GroupBy(c => c)
+                .Where(c => c.Key != 'J')
+                .OrderByDescending(c => c.Count())
+                .Select(c => c.Key)
+                .FirstOrDefault();
+
+            return cards.Replace('J', mostCommonCard);
         }
     }
 

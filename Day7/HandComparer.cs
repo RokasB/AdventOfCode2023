@@ -24,7 +24,7 @@ namespace Day7
             if (c == 'A') return 14;
             if (c == 'K') return 13;
             if (c == 'Q') return 12;
-            if (c == 'J') return 11;
+            if (c == 'J') return 1;//11 to 1 for part 2
             if (c == 'T') return 10;
             return int.Parse(c.ToString());
 
