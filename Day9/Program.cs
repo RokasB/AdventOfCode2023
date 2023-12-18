@@ -16,7 +16,7 @@ namespace Day9
         static void Main(string[] args)
         {
             ReadInput();
-            Console.WriteLine(GetSumOfExtrapolatedValues());
+            Console.WriteLine(GetSumOfBackwardExtrapolatedValues());
             Console.ReadLine();
         }
 
@@ -33,7 +33,7 @@ namespace Day9
         public static int GetSumOfExtrapolatedValues()
         {
             var sum = 0;
-            foreach(var history in oasisReport)
+            foreach (var history in oasisReport)
             {
                 sum += GetExtrapolatedValue(history);
             }
@@ -48,21 +48,55 @@ namespace Day9
             while (sequences.Last().Count(x => x == 0) != sequences.Last().Count) //while not all zeroes
             {
                 List<int> nextSequence = new List<int>();
-                for (int i = 0; i < sequences.Last().Count -1; i++)
+                for (int i = 0; i < sequences.Last().Count - 1; i++)
                 {
-                    nextSequence.Add(sequences.Last()[i+1] - sequences.Last()[i]);
+                    nextSequence.Add(sequences.Last()[i + 1] - sequences.Last()[i]);
                 }
                 sequences.Add(nextSequence);
             }
 
             List<int> extrapolations = new List<int>();
             extrapolations.Add(0);
-            for(int i = sequences.Count - 2; i >=0 ;i--)
+            for (int i = sequences.Count - 2; i >= 0; i--)
             {
                 extrapolations.Add(extrapolations.Last() + sequences[i].Last());
             }
             return extrapolations.Last();
 
+        }
+
+        public static int GetSumOfBackwardExtrapolatedValues()
+        {
+            var sum = 0;
+            foreach (var history in oasisReport)
+            {
+                sum += GetBackwardExtrapolatedValue(history);
+            }
+            return sum;
+        }
+
+        public static int GetBackwardExtrapolatedValue(List<int> history)
+        {
+            List<List<int>> sequences = new List<List<int>>();
+            sequences.Add(history);
+
+            while (sequences.Last().Count(x => x == 0) != sequences.Last().Count) //while not all zeroes
+            {
+                List<int> nextSequence = new List<int>();
+                for (int i = 0; i < sequences.Last().Count - 1; i++)
+                {
+                    nextSequence.Add(sequences.Last()[i + 1] - sequences.Last()[i]);
+                }
+                sequences.Add(nextSequence);
+            }
+
+            List<int> extrapolationsBackwards = new List<int>();
+            extrapolationsBackwards.Add(0);
+            for (int i = sequences.Count - 2; i >= 0; i--)
+            {
+                extrapolationsBackwards.Add(sequences[i].First() - extrapolationsBackwards.Last());
+            }
+            return extrapolationsBackwards.Last();
         }
     }
 }
